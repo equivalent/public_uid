@@ -53,7 +53,7 @@ class AddPublicUidToUsers < ActiveRecord::Migration
 end
 ```
 
-Tell your model to generate the public [[identifier]]
+Tell your model to generate the public identifier
 
 ```ruby
 class User < ActiveRecord::Base

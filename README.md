@@ -15,17 +15,17 @@ against you.
 
 This is bad: 
 
-`http://eq8.eu/orders/12/edit`
-`http://eq8.eu/orders/12-order-for-mouse-and-keyboard/edit`
+    http://eq8.eu/orders/12/edit
+    http://eq8.eu/orders/12-order-for-mouse-and-keyboard/edit
 
 However if you generate random unique identifier and use that as a public
 identifier, you won't have to worry about that.
 
 This is how it should be: 
 
-`http://eq8.eu/orders/8395820/edit`
-`http://eq8.eu/orders/abaoeule/edit`
-`http://eq8.eu/orders/aZc3/edit`
+    http://eq8.eu/orders/8395820/edit
+    http://eq8.eu/orders/abaoeule/edit
+    http://eq8.eu/orders/aZc3/edit
 
 So keep `record.id` for your internal relationships and show `public_id`
 to the world :smile:

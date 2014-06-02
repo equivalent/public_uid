@@ -10,13 +10,11 @@ class DummyGenerator
   end
 
   def generate
-    @counter = @counter + 1
-
     if @counter > 1
       'second try'
     else
       'first try'
-    end
+    end.tap { @counter = @counter + 1 }
   end
 end
 
@@ -48,6 +46,7 @@ describe 'PublicUid::SetPublicUid' do
 
     context 'when record match random' do
       before{ User.create public_uid: 'first try' }
+      after { User.destroy_all }
 
       it "should generate string once again" do
         instance.generate(DummyGenerator.new)

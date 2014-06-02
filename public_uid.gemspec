@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["equivalent@eq8.eu"]
   spec.description   = %q{Automatic generates public unique identifier for model}
   spec.summary       = %q{Automatic generates public UID column}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/equivalent/public_uid"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

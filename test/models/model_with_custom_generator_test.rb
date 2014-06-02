@@ -1,40 +1,33 @@
 require 'test_helper'
 
-class ModelWithCustomGererator < ActiveRecord::Base
-  self.table_name = "users"
-  include PublicUid
+TestConf.orm_modules.each do |orm_module|
+  describe orm_module.description do
+    describe 'ModelWithCustomGererator' do
+      let(:user) { "#{orm_module}::ModelWithCustomGererator".constantize.new }
 
-  gener_range = ('a'..'z').to_a+('A'..'Z').to_a
+      describe '#public_uid' do
+        subject{ user.public_uid }
 
-  generate_public_uid generator: PublicUid::Generators::RangeString.
-                                   new(10, gener_range)
-end
+        context 'in new record' do
+          it{ subject.must_be_nil }
+        end
 
-describe 'ModelWithCustomGererator' do
-  let(:user){ModelWithCustomGererator.new}
+        context 'after save' do
+          before do
+            user.save
+            user.reload
+          end
 
-  describe '#public_uid' do
-    subject{ user.public_uid }
+          it 'should generate 10 chars' do
+            subject.must_be_kind_of String
+            subject.length.must_equal(10)
+          end
 
-    context 'in new record' do
-      it{ subject.must_be_nil }
-    end
-
-    context 'after save' do
-      before do
-        user.save
-        user.reload
+          it 'string including up & down case' do
+            subject.must_match(/^[a-zA-Z]+$/)
+          end
+        end
       end
-
-      it 'should generate 10 chars' do
-        subject.must_be_kind_of String
-        subject.length.must_equal(10)
-      end
-
-      it 'string including up & down case' do
-        subject.must_match(/^[a-zA-Z]+$/)
-      end
-
     end
   end
 end

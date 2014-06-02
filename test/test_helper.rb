@@ -1,7 +1,7 @@
+require 'pathname'
 require 'bundler/setup'
-require 'public_uid'
 require 'minitest/autorun'
-require 'active_record'
+require 'public_uid'
 
 class Minitest::Spec
   class << self
@@ -9,6 +9,26 @@ class Minitest::Spec
   end
 end
 
-ActiveRecord::Base::establish_connection(adapter: 'sqlite3', database: ':memory:')
-ActiveRecord::Base.connection.execute(%{CREATE TABLE users  (id INTEGER PRIMARY KEY, public_uid VARCHAR, custom_uid INTEGER);})
+class TestConf
+  class << self
+    def root_path
+      Pathname.new(File.expand_path '../..', __FILE__)
+    end
 
+    def orm_modules
+      @orm_modules ||= []
+    end
+
+    def add_orm_module(konstant)
+      orm_modules << konstant
+    end
+  end
+end
+
+['active_record'].each do |orm|
+  begin
+    load  TestConf.root_path.join 'test', 'support', 'orm', "#{orm}.rb"
+  rescue LoadError
+    raise "ORM #{orm} not available"
+  end
+end

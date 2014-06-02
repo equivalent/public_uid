@@ -1,5 +1,10 @@
 # PublicUid
 
+
+[![Build Status](https://api.travis-ci.org/equivalent/lpgrid.png?branch=master)](http://travis-ci.org/equivalent/public_uid)
+[![Code Climate](https://codeclimate.com/github/equivalent/public_uid.png)](https://codeclimate.com/github/equivalent/public_uid)
+
+
 Generates random string (or random number) to represent public unique
 record identifier.
 

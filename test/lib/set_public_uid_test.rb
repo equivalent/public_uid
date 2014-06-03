@@ -1,9 +1,5 @@
 require 'test_helper'
 
-class User < ActiveRecord::Base
-  self.table_name = 'users'
-end
-
 class DummyGenerator
   def initialize
     @counter = 0
@@ -18,71 +14,76 @@ class DummyGenerator
   end
 end
 
-describe 'PublicUid::SetPublicUid' do
-  let(:options) { {record: record, column: :public_uid} }
-  let(:instance){ PublicUid::SetPublicUid.new options }
+TestConf.orm_modules.each do |orm_module|
+  describe orm_module.description do
+    describe 'PublicUid::SetPublicUid' do
 
-  let(:record){ User.new }
+      let(:options)  { {record: record, column: :public_uid} }
+      let(:instance) { PublicUid::SetPublicUid.new options }
+      let(:record)   { record_class.new }
+      let(:record_class) { "#{orm_module}::User".constantize }
 
-  describe 'initialization' do
-    context 'when column not specified' do
-      let(:options) { {record: record} }
-      it{ ->{ instance }.must_raise(PublicUid::SetPublicUid::NoPublicUidColumnSpecified) }
-    end
+      describe 'initialization' do
+        context 'when column not specified' do
+          let(:options) { { record: record } }
+          it{ ->{ instance } .must_raise(PublicUid::SetPublicUid::NoPublicUidColumnSpecified) }
+        end
 
-    context 'when record not specified' do
-      let(:options) { {column: :foo} }
-      it{ ->{ instance }.must_raise(PublicUid::SetPublicUid::NoRecordSpecified) }
-    end
-  end
-
-  describe "#generate" do
-    subject{ instance.new_uid }
-
-    it "should ask generator to generate random string" do
-      instance.generate(DummyGenerator.new)
-      subject.must_equal 'first try'
-    end
-
-    context 'when record match random' do
-      before{ User.create public_uid: 'first try' }
-      after { User.destroy_all }
-
-      it "should generate string once again" do
-        instance.generate(DummyGenerator.new)
-        subject.must_equal 'second try'
+        context 'when record not specified' do
+          let(:options) { {column: :foo} }
+          it{ ->{ instance } .must_raise(PublicUid::SetPublicUid::NoRecordSpecified) }
+        end
       end
-    end
-  end
 
-  describe '#set' do
-    subject{ instance.new_uid }
+      describe "#generate" do
+        subject { instance.new_uid }
 
-    context 'when @new id is not set' do
-      it{ ->{ instance.set }.must_raise(PublicUid::SetPublicUid::NewUidNotSetYet) }
-    end
+        it "should ask generator to generate random string" do
+          instance.generate(DummyGenerator.new)
+          subject.must_equal 'first try'
+        end
 
-    context 'when @new id is set' do
-      before{ instance.instance_variable_set '@new_uid', '123' }
+        context 'when record match random' do
+          before{ record_class.create public_uid: 'first try' }
+          after { record_class.destroy_all }
 
-      it 'must set new_uid for record pubilc_uid column' do
-        instance.set
-        subject.must_equal '123'
+          it "should generate string once again" do
+            instance.generate(DummyGenerator.new)
+            subject.must_equal 'second try'
+          end
+        end
       end
-    end
-  end
 
-  describe '#similar_uid_exist?' do
-    let(:trigger) { instance.send :similar_uid_exist? }
+      describe '#set' do
+        subject { instance.new_uid }
 
-    before { mock(instance).new_uid { 567 } }
+        context 'when @new id is not set' do
+          it{ ->{ instance.set }.must_raise(PublicUid::SetPublicUid::NewUidNotSetYet) }
+        end
 
-    # Due to PostgreSQL type check feature
-    it 'must look for integer generated numbers as a string' do 
-      count_mock = stub(User).count { 123 }
-      stub(User).where( { public_uid: "567" } ) { count_mock }
+        context 'when @new id is set' do
+          before { instance.instance_variable_set '@new_uid', '123' }
 
-      trigger.must_equal true
+          it 'must set new_uid for record pubilc_uid column' do
+            instance.set
+            subject.must_equal '123'
+          end
+        end
+      end
+
+      describe '#similar_uid_exist?' do
+        let(:trigger) { instance.send :similar_uid_exist? }
+
+        before { mock(instance).new_uid { 567 } }
+
+        # Due to PostgreSQL type check feature
+        it 'must look for integer generated numbers as a string' do 
+          count_mock = stub(record_class).count { 123 }
+          stub(record_class).where( { public_uid: "567" } ) { count_mock }
+
+          trigger.must_equal true
+        end
+      end
     end
   end
 end

@@ -24,6 +24,10 @@ module ActRec
     self.table_name =  "users"
     generate_public_uid
   end
+
+  class User < ActiveRecord::Base
+    self.table_name = 'users'
+  end
 end
 
 TestConf.add_orm_module(ActRec)

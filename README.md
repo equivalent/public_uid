@@ -47,7 +47,7 @@ And then execute:
 
 ## Usage
 
-Create database column for public unique id
+Create database column for public unique id. It have to be string.
 
 ```ruby
 class AddPublicUidToUsers < ActiveRecord::Migration

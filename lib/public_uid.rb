@@ -5,4 +5,4 @@ require "public_uid/model"
 require "public_uid/generators/number_random"
 require "public_uid/generators/range_string"
 
-require 'orm/active_record'
+require 'orm/active_record' if defined?(ActiveRecord::Base)

@@ -6,7 +6,6 @@ module PublicUid
       @record  = options[:record] || raise(NoRecordSpecified)
       @column  = options[:column] || raise(NoPublicUidColumnSpecified)
       @klass   = @record.class
-      @new_uid = nil
       check_column_existance
     end
 
@@ -17,12 +16,13 @@ module PublicUid
     end
 
     def set
-      @record.send("#{@column}=", @new_uid || raise(NewUidNotSetYet))
+      new_uid || raise(NewUidNotSetYet)
+      @record.send("#{@column}=", new_uid )
     end
     private
 
     def similar_uid_exist?
-      @klass.where(public_uid: @new_uid).count > 0
+      @klass.where(public_uid: new_uid.to_s).count > 0
     end
 
     def check_column_existance

@@ -72,4 +72,17 @@ describe 'PublicUid::SetPublicUid' do
     end
   end
 
+  describe '#similar_uid_exist?' do
+    let(:trigger) { instance.send :similar_uid_exist? }
+
+    before { mock(instance).new_uid { 567 } }
+
+    # Due to PostgreSQL type check feature
+    it 'must look for integer generated numbers as a string' do 
+      count_mock = stub(User).count { 123 }
+      stub(User).where( { public_uid: "567" } ) { count_mock }
+
+      trigger.must_equal true
+    end
+  end
 end

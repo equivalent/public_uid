@@ -1,6 +1,7 @@
 require 'pathname'
 require 'bundler/setup'
 require 'minitest/autorun'
+require 'rr'
 
 class Minitest::Spec
   class << self

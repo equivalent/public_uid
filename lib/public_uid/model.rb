@@ -16,7 +16,7 @@ module PublicUid
 
       def generate_public_uid(options={})
         @public_uid_column    = options[:column]    || :public_uid
-        @public_uid_generator = options[:generator] || Generators::NumberRandom.new
+        @public_uid_generator = options[:generator] || Generators::RangeString.new
         before_create :generate_uid, unless: @public_uid_column
       end
     end

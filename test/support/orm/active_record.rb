@@ -1,5 +1,5 @@
 ActiveRecord::Base::establish_connection(adapter: 'sqlite3', database: ':memory:')
-ActiveRecord::Base.connection.execute(%{CREATE TABLE users  (id INTEGER PRIMARY KEY, public_uid VARCHAR, custom_uid INTEGER);})
+ActiveRecord::Base.connection.execute(%{CREATE TABLE users  (id INTEGER PRIMARY KEY, public_uid VARCHAR, custom_uid VARCHAR);})
 
 module ActRec
   def self.description

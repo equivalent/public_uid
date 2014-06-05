@@ -2,7 +2,7 @@ require 'test_helper'
 
 TestConf.orm_modules.each do |orm_module|
   describe orm_module.description do
-    describe 'ModelWithCustomGererator' do
+    context 'Model with custom uid generator' do
       let(:user) { "#{orm_module}::ModelWithCustomGererator".constantize.new }
 
       describe '#public_uid' do

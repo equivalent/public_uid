@@ -19,17 +19,18 @@ against you.
 
 This is bad: 
 
-    http://eq8.eu/orders/12/edit
-    http://eq8.eu/orders/12-order-for-mouse-and-keyboard/edit
+    http://www.eq8.eu/orders/12/edit
+    http://www.eq8.eu/orders/12-order-for-mouse-and-keyboard/edit
 
 However if you generate random unique identifier and use that as a public
 identifier, you won't have to worry about that.
 
 This is how it should be: 
 
-    http://eq8.eu/orders/8395820/edit
-    http://eq8.eu/orders/abaoeule/edit
-    http://eq8.eu/orders/aZc3/edit
+    http://www.eq8.eu/orders/8395820/edit
+    http://www.eq8.eu/orders/8395820-order-for-mouse-and-keyboard/edit
+    http://www.eq8.eu/orders/abaoeule/edit
+    http://www.eq8.eu/orders/aZc3/edit
 
 So keep `record.id` for your internal relationships and show `public_id`
 to the world :smile:
@@ -47,7 +48,7 @@ And then execute:
 
 ## Usage
 
-Create database column for public unique id. It have to be string.
+Create database column for public unique ID.
 
 ```ruby
 class AddPublicUidToUsers < ActiveRecord::Migration
@@ -65,7 +66,7 @@ class User < ActiveRecord::Base
 end
 ```
 
-This will automatically generate 7 digit random unique number for 
+This will automatically generate unique 8 char downcase string for 
 column `public_uid`. 
 
 
@@ -73,7 +74,7 @@ column `public_uid`.
 u = User.new
 u.public_uid  #=> nil
 u.save!       #=> true
-u.public_uid  #=> 9392049
+u.public_uid  #=> "aeuhsthi"
 ```
 
 If you want to use different column just specify column option:
@@ -88,15 +89,15 @@ end
 u = User.new
 u.guid  #=> nil
 u.save! #=> true
-u.guid  #=> 8392049
+u.guid  #=> "troxuroh"
 ```
 
-If you want to generate random string you can use built-in string
+If you want to generate random Integer you can use built-in number 
 generator:
 
 ```ruby
 class User < ActiveRecord::Base
-  generate_public_uid generator: PublicUid::Generators::RangeString.new
+  generate_public_uid generator: PublicUid::Generators::NumberRandom.new
 end
 ```
 
@@ -104,8 +105,13 @@ end
 u = User.new
 u.public_uid  #=> nil
 u.save!       #=> true
-u.public_uid  #=> "azuberdc"
+u.public_uid  #=> 4567123
 ```
+
+**Note** Warning **PostgreSQL** have built in type safety meaning that this
+generator wont work if your public uniq ID column is a String (as the
+gem would try to set Integer on a String). If you really want a number
+like string you can specify number range for Range String Generator
 
 ### Customizing generated string
 
@@ -121,6 +127,17 @@ u = User.new
 u.public_uid  #=> nil
 u.save!       #=> true
 u.public_uid  #=> "aZ3e"
+```
+
+To generate number format String you can specify number range 
+
+```
+class User < ActiveRecord::Base
+  UID_RANGE = ('1'..'9').to_a
+  generate_public_uid generator: PublicUid::Generators::RangeString.new(4, UID_RANGE)
+end
+
+# User.create.public_uid  == "1234"
 ```
 
 ### Customizing randomized number 

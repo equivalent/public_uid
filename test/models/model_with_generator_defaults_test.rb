@@ -2,7 +2,7 @@ require 'test_helper'
 
 TestConf.orm_modules.each do |orm_module|
   describe orm_module.description do
-    describe 'ModelWithGeneratorDefaults' do
+    context 'Model with default generator' do
       let(:user) { "#{orm_module}::ModelWithGeneratorDefaults".constantize.new }
 
       describe '#public_uid' do
@@ -13,14 +13,14 @@ TestConf.orm_modules.each do |orm_module|
         end
 
         context 'after save' do
+
           before do
             user.save
             user.reload
           end
-          it{ subject.wont_be_nil }
-          it 'by default should generate 7 digit number string' do
-            subject.to_i.to_s.length.must_equal(7)
-          end
+
+          it{ subject.must_be_kind_of(String) }
+          it{ subject.length.must_equal(8) }
         end
       end
     end

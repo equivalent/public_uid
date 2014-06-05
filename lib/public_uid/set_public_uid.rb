@@ -22,7 +22,7 @@ module PublicUid
     private
 
     def similar_uid_exist?
-      @klass.where(public_uid: new_uid.to_s).count > 0
+      @klass.where(public_uid: new_uid).count > 0
     end
 
     def check_column_existance

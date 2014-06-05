@@ -76,10 +76,13 @@ TestConf.orm_modules.each do |orm_module|
 
         before { mock(instance).new_uid { 567 } }
 
-        # Due to PostgreSQL type check feature
-        it 'must look for integer generated numbers as a string' do 
-          count_mock = stub(record_class).count { 123 }
-          stub(record_class).where( { public_uid: "567" } ) { count_mock }
+        # There is an issue with passing integer to PostgreSQL type check
+        # in previous version application deal with this issue by converting
+        # everything given by generator to string which is wrong. If the output
+        # of generator is not supported by DB don't use it.
+        it 'must pass exact type of generator to model' do 
+          count_mock = stub(record_class).count { 10 }
+          stub(record_class).where( { public_uid: 567 } ) { count_mock }
 
           trigger.must_equal true
         end

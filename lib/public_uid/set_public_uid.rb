@@ -1,5 +1,10 @@
 module PublicUid
   class SetPublicUid
+    NewUidNotSetYet             = Class.new(StandardError)
+    PublicUidColumnDoesNotExist = Class.new(StandardError)
+    NoPublicUidColumnSpecified  = Class.new(StandardError)
+    NoRecordSpecified           = Class.new(StandardError)
+
     attr_reader :new_uid
 
     def initialize(options)
@@ -28,10 +33,5 @@ module PublicUid
     def check_column_existance
       raise PublicUidColumnDoesNotExist if @klass.column_names.include?(@column)
     end
-
-    class NewUidNotSetYet < StandardError; end
-    class PublicUidColumnDoesNotExist < StandardError; end
-    class NoPublicUidColumnSpecified  < StandardError; end
-    class NoRecordSpecified           < StandardError; end
   end
 end

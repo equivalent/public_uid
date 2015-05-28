@@ -156,6 +156,14 @@ u.save!       #=> true
 u.public_uid  #=> 2398
 ```
 
+### Rails rake task
+
+By using this gem you will automatically gain rake task `rake public_uid:generate`
+in your Rails application which will generate `public_uid` on the tables
+using `public_uid` on records where `public_uid == nil`.
+
+This is helpfull to generate `public_uid` on pre-existing recrods.
+
 ## Contributing
 
 1. Fork it

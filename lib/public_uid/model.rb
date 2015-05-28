@@ -39,7 +39,7 @@ module PublicUid
 
       private
       def _include_public_uid_instance_methods
-        self.include PublicUid::Model::InstanceMethods
+        self.send(:include, PublicUid::Model::InstanceMethods)
       end
 
       def _set_callback_to_generate_public_uid 

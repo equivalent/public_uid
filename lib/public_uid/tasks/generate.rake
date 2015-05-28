@@ -5,7 +5,7 @@ namespace :public_uid do
     ActiveRecord::Base.descendants.each do |model|
       model.connection # establis conection
 
-      if model.attribute_names.collect(&:to_s).include?('public_uid')
+      if model.instance_methods.collect(&:to_s).include?('generate_uid')
         puts "Model #{model.name}: generating public_uids for missing records"
 
         model
@@ -15,6 +15,7 @@ namespace :public_uid do
             record_without_public_uid.generate_uid
             record_without_public_uid.save!
           end
+        puts ''
       end
     end
   end

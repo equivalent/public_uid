@@ -25,6 +25,10 @@ module ActRec
     generate_public_uid
   end
 
+  class ModelWithoutGenaratePublicUid < ActiveRecord::Base
+    self.table_name =  "users"
+  end
+
   class User < ActiveRecord::Base
     self.table_name = 'users'
   end

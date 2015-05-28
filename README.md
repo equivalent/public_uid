@@ -164,6 +164,19 @@ using `public_uid` on records where `public_uid == nil`.
 
 This is helpfull to generate `public_uid` on pre-existing recrods.
 
+```
+rake public_uid:generate
+
+Model EntityApplication: generating public_uids for missing records
+  * generating 0 public_uid(s)
+
+Model ValidationFormField: generating public_uids for missing records
+  * generating 133 public_uid(s)
+
+Model ValidationType: generating public_uids for missing records
+  * generating 0 public_uid(s)
+```
+
 ## Contributing
 
 1. Fork it

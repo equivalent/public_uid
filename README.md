@@ -77,6 +77,34 @@ u.save!       #=> true
 u.public_uid  #=> "aeuhsthi"
 ```
 
+Then you can do more clever things like having urls based on `public_uid` and `title` (http://blog.teamtreehouse.com/creating-vanity-urls-in-rails)
+
+```ruby
+# app/models/user.rb
+class User < ActiveRecord::Base
+  generate_public_uid
+
+  def self.find_param(param)
+    find_by! public_uid: param.split('-').first
+  end
+  
+  def to_param
+    "#{public_uid}-#{tile.gsub(/\s/,'-'}"
+  end
+end
+ 
+# app/controllers/users_controller.rb
+class UsersController < ActionController::Base
+  # ...
+  def show
+    @user = User.find_param(param[:id])
+    # ...
+  end
+  # ...
+end
+```
+
+
 If you want to use different column just specify column option:
 
 ```ruby

@@ -205,6 +205,58 @@ Model ValidationType: generating public_uids for missing records
   * generating 0 public_uid(s)
 ```
 
+## Alternatives
+
+There is a lot of reasons behind the existance of this gem, we are fully aware there are "built" in alternatives it's just they don't quite fit the purpouse of Developer to chose char range himself. 
+
+Anyway if you hate our guts for writing this gem try something like:
+
+#### UUID
+
+```ruby
+class Post < ActiveRecord::Base
+ before_create :generate_random_id
+
+ private 
+ def generate_random_id
+   self.id = SecureRandom.uuid
+ end 
+end
+```
+
+Or if you are using Rails >= 4 and PostgreSQL, you can have it generating them for you :
+
+```ruby
+create_table :posts, id: :uuid do |t|
+  ...
+end
+```
+
+* [Source](http://stackoverflow.com/a/34679841)
+
+#### SecureRandom.random_number
+
+```ruby
+class MyModel < ActiveRecord::Base
+  before_create :randomize_id
+  
+  private
+  def randomize_id
+    begin
+      self.id = SecureRandom.random_number(1_000_000)
+    end while Model.where(id: self.id).exists?
+  end
+end
+
+```
+
+Or you can use `SecureRandom.hex`
+
+In future gem version we will actually introduce this two generators.
+
+* [Source](http://stackoverflow.com/a/13680914)
+
+
 ## Contributing
 
 1. Fork it

@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
   end
   
   def to_param
-    "#{public_uid}-#{tile.gsub(/\s/,'-'}"
+    "#{public_uid}-#{tile.gsub(/\s/,'-')}"
   end
 end
  

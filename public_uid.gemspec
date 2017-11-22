@@ -24,5 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 5"
   spec.add_development_dependency "rr", "~> 1.1.2"
   spec.add_development_dependency "sqlite3"
-  spec.add_development_dependency "activerecord", '~> 3.2'
+  spec.add_development_dependency "activerecord", '~> 4.2' # ensures compatibility for ruby 2.0.0+ to head
 end

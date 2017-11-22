@@ -1,3 +1,5 @@
+require 'rake'
+
 namespace :public_uid do
   desc "Generate public_uid on Models that have public_uid column on records that have nil public_uid"
   task :generate => :environment do

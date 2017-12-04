@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/equivalent/public_uid.svg?branch=master)](https://travis-ci.org/equivalent/public_uid)
 [![Code Climate](https://codeclimate.com/github/equivalent/public_uid.png)](https://codeclimate.com/github/equivalent/public_uid)
-[![Open Thanks](https://thawing-falls-79026.herokuapp.com/images/thanks-1.svg)](https://thawing-falls-79026.herokuapp.com/r/jdowmxcf)
+
 
 Generates random string (or random number) to represent public unique
 record identifier.

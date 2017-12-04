@@ -2,6 +2,7 @@
 *.rbc
 .bundle
 .config
+.idea
 .yardoc
 Gemfile.lock
 InstalledFiles
@@ -15,5 +16,5 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
-.ruby-version
-.ruby-gemset
+.ruby-version*
+.ruby-gemset*

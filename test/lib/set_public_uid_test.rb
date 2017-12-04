@@ -21,7 +21,7 @@ TestConf.orm_modules.each do |orm_module|
       let(:options)  { {record: record, column: :public_uid} }
       let(:instance) { PublicUid::SetPublicUid.new options }
       let(:record)   { record_class.new }
-      let(:record_class) { "#{orm_module}::User".constantize }
+      let(:record_class) { "#{orm_module}::ModelWithGeneratorDefaults".constantize }
 
       describe 'initialization' do
         context 'when column not specified' do

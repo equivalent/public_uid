@@ -20,7 +20,7 @@ describe 'NumberRandom' do
         subject.must_be_kind_of Integer
       end
 
-      it 'generates string containing chars x,y,z' do
+      it 'generates integer has to be 20 or 21' do
         [20, 21].must_include subject
       end
     end

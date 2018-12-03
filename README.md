@@ -141,12 +141,50 @@ generator wont work if your public uniq ID column is a String (as the
 gem would try to set Integer on a String). If you really want a number
 like string you can specify number range for Range String Generator
 
+If you want to generate random Integer using SecureRandom ruby library you can use built-in number secure generator:
+
+```ruby
+class User < ActiveRecord::Base
+  generate_public_uid generator: PublicUid::Generators::NumberSecureRandom.new
+end
+```
+
+```irb
+u = User.new
+u.public_uid  #=> nil
+u.save!       #=> true
+u.public_uid  #=> 4567123
+```
+
+If you want to generate random Hexadecimal String using SecureRandom ruby library you can use built-in hexadecimal string secure generator:
+
+```ruby
+class User < ActiveRecord::Base
+  generate_public_uid generator: PublicUid::Generators::HexStringSecureRandom.new
+end
+```
+
+```irb
+u = User.new
+u.public_uid  #=> nil
+u.save!       #=> true
+u.public_uid  #=> 0b30ffbc7de3b362
+```
+
 ### Customizing generated string
 
 ```ruby
 class User < ActiveRecord::Base
   UID_RANGE = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
   generate_public_uid generator: PublicUid::Generators::RangeString.new(4, UID_RANGE)
+end
+```
+
+or in case you are using SecureRandom ruby library: 
+
+```ruby
+class User < ActiveRecord::Base
+  generate_public_uid generator: PublicUid::Generators::HexStringSecureRandom.new(4)  #4 is length of hexadecimal string. If this argument is not set, length of hexadecimal string will be 8 characters. 
 end
 ```
 
@@ -174,6 +212,14 @@ end
 class User < ActiveRecord::Base
   UID_RANGE = 1_000..4_000
   generate_public_uid generator: PublicUid::Generators::NumberRandom.new(UID_RANGE)
+end
+```
+
+or in case you are using SecureRandom ruby library: 
+```ruby
+class User < ActiveRecord::Base
+  UID_RANGE = 1_000..4_000
+  generate_public_uid generator: PublicUid::Generators::NumberSecureRandom.new(UID_RANGE)
 end
 ```
 

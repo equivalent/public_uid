@@ -34,7 +34,7 @@ module PublicUid
       end
 
       def public_uid_generator
-        @public_uid_generator || Generators::RangeString.new
+        @public_uid_generator || Generators::HexStringSecureRandom.new
       end
 
       private

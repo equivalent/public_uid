@@ -54,6 +54,7 @@ Create database column for public unique ID.
 class AddPublicUidToUsers < ActiveRecord::Migration
   def change
     add_column :users, :public_uid, :string
+    add_index  :users, :public_uid
   end
 end
 ```

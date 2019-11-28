@@ -15,7 +15,7 @@ namespace :public_uid do
           .tap { |scope| puts "  * generating #{scope.count} #{uid_column_name}(s) for #{model.table_name}" }
           .find_each do |record_without_public_uid|
           record_without_public_uid.generate_uid
-          record_without_public_uid.save!
+          record_without_public_uid.save!(validate: false)
         end
         puts ''
       end

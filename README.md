@@ -311,3 +311,23 @@ In future gem version we will actually introduce this two generators.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Changelog
+
+##### 2019-11-29
+
+Version 2.0.0 released
+
+Till version [public_uid 1.3.1](https://github.com/equivalent/public_uid/tree/version-1.3.1) gem used [orm_adapter](https://github.com/ianwhite/orm_adapter) which mean
+that you could use ActiveRecord or any other data mapping adapter (e.g. Mongoid) supported by orm adapter.
+
+Problem is that orm_adapter is not maintained for 6 years now and cause some
+gem conflicts with latest ActiveRecord development environment. That's
+why I've decided to remove the ORM adapter ([commit](https://github.com/equivalent/public_uid/commit/e66b5dbf659fcdddc6b284b3eb2051a9b8a31968))
+and use `ActiveRecord::Base` directly.
+
+That means any Rails application using `public_uid` gem  ActiveRecord will **not** be affected by the 2.0 release.
+If anyone want to see public_uid v 2.0 to support other data mappers (e.g. mongo) please open an issue or create PR with the fix.
+
+Sorry for any inconvenience
+

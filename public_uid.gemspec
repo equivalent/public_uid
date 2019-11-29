@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activerecord", '> 4.2' # ensures compatibility for ruby 2.0.0+ to head
-  spec.add_development_dependency "bundler", "~> 1.3"
+  spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "minitest", "~> 5"
   spec.add_development_dependency "rr", "~> 1.1.2"

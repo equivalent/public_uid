@@ -26,12 +26,20 @@ TestConf.orm_modules.each do |orm_module|
       describe 'initialization' do
         context 'when column not specified' do
           let(:options) { { record: record } }
-          it{ ->{ instance } .must_raise(PublicUid::SetPublicUid::NoPublicUidColumnSpecified) }
+          it do
+            assert_raises PublicUid::SetPublicUid::NoPublicUidColumnSpecified do
+              instance
+            end
+          end
         end
 
         context 'when record not specified' do
           let(:options) { {column: :foo} }
-          it{ ->{ instance } .must_raise(PublicUid::SetPublicUid::NoRecordSpecified) }
+          it do
+            assert_raises PublicUid::SetPublicUid::NoRecordSpecified do
+              instance
+            end
+          end
         end
       end
 
@@ -40,7 +48,7 @@ TestConf.orm_modules.each do |orm_module|
 
         it "should ask generator to generate random string" do
           instance.generate(DummyGenerator.new)
-          subject.must_equal 'first try'
+          expect(subject).must_equal 'first try'
         end
 
         context 'when record match random' do
@@ -49,7 +57,7 @@ TestConf.orm_modules.each do |orm_module|
 
           it "should generate string once again" do
             instance.generate(DummyGenerator.new)
-            subject.must_equal 'second try'
+            expect(subject).must_equal 'second try'
           end
         end
       end
@@ -58,7 +66,11 @@ TestConf.orm_modules.each do |orm_module|
         subject { instance.new_uid }
 
         context 'when @new id is not set' do
-          it{ ->{ instance.set }.must_raise(PublicUid::SetPublicUid::NewUidNotSetYet) }
+          it do
+            assert_raises PublicUid::SetPublicUid::NewUidNotSetYet do
+              instance.set
+            end
+          end
         end
 
         context 'when @new id is set' do
@@ -66,7 +78,7 @@ TestConf.orm_modules.each do |orm_module|
 
           it 'must set new_uid for record pubilc_uid column' do
             instance.set
-            subject.must_equal '123'
+            expect(subject).must_equal '123'
           end
         end
       end
@@ -84,7 +96,7 @@ TestConf.orm_modules.each do |orm_module|
           count_mock = stub(record_class).count { 10 }
           stub(record_class).where( { public_uid: 567 } ) { count_mock }
 
-          trigger.must_equal true
+          expect(trigger).must_equal true
         end
       end
     end

@@ -9,14 +9,14 @@ TestConf.orm_modules.each do |orm_module|
         subject{ user.public_uid }
 
         context 'in new record' do
-          it{ subject.must_be_nil }
+          it{ expect(subject).must_be_nil }
 
           describe '#generate_uid' do
             before do
               user.generate_uid
             end
 
-            it { subject.wont_be_nil }
+            it { expect(subject).wont_be_nil }
           end
         end
 
@@ -27,12 +27,12 @@ TestConf.orm_modules.each do |orm_module|
           end
 
           it 'should generate 10 chars' do
-            subject.must_be_kind_of String
-            subject.length.must_equal(10)
+            expect(subject).must_be_kind_of String
+            expect(subject.length).must_equal(10)
           end
 
           it 'string including up & down case' do
-            subject.must_match(/^[a-zA-Z]+$/)
+            expect(subject).must_match(/^[a-zA-Z]+$/)
           end
         end
       end

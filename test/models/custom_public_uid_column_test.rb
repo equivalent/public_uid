@@ -9,14 +9,14 @@ TestConf.orm_modules.each do |orm_module|
         subject{ user.custom_uid }
 
         context 'in new record' do
-          it{ subject.must_be_nil }
+          it{ expect(subject).must_be_nil }
 
           describe '#generate_uid' do
             before do
               user.generate_uid
             end
 
-            it { subject.wont_be_nil }
+            it { expect(subject).wont_be_nil }
           end
         end
 
@@ -27,8 +27,8 @@ TestConf.orm_modules.each do |orm_module|
             user.reload
           end
 
-          it{ subject.must_be_kind_of(String) }
-          it{ subject.length.must_equal(8) }
+          it{ expect(subject).must_be_kind_of(String) }
+          it{ expect(subject.length).must_equal(8) }
         end
       end
     end

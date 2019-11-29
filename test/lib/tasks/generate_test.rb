@@ -29,23 +29,20 @@ describe 'Generate' do
               initial_uid = user.send(uid_column)
 
               # simulate an existing record with no uid value
-              user.update_attribute(uid_column, nil).must_equal true
-              user.send(uid_column).must_be_nil
+              expect(user.update_attribute(uid_column, nil)).must_equal true
+              expect(user.send(uid_column)).must_be_nil
 
               # run the rake task
               run_generate_task
 
               user.reload
-              user.send(uid_column).must_be_kind_of String
-              user.send(uid_column).wont_be_empty
-              user.send(uid_column).wont_be_same_as initial_uid
+              expect(user.send(uid_column)).must_be_kind_of String
+              expect(user.send(uid_column)).wont_be_empty
+              expect(user.send(uid_column)).wont_be_same_as initial_uid
             end
           end
         end
-
       end
-
     end
   end
-
 end

@@ -9,7 +9,7 @@ TestConf.orm_modules.each do |orm_module|
       end
 
       it 'model should not expose :generate_uid public instance method' do
-        model.instance_methods.wont_include :generate_uid
+        expect(model.instance_methods).wont_include :generate_uid
       end
     end
 
@@ -19,7 +19,7 @@ TestConf.orm_modules.each do |orm_module|
       end
 
       it 'model should expose :generate_uid public instance method' do
-        model.instance_methods.must_include :generate_uid
+        expect(model.instance_methods).must_include :generate_uid
       end
     end
   end

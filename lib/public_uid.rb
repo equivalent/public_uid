@@ -6,6 +6,7 @@ require "public_uid/generators/number_random"
 require "public_uid/generators/range_string"
 require "public_uid/generators/number_secure_random"
 require "public_uid/generators/hex_string_secure_random"
+require 'public_uid/model_concern'
 require 'public_uid/tasks' if defined?(Rails)
 
 module PublicUid

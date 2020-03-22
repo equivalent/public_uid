@@ -29,7 +29,6 @@ module ActRec
     generate_public_uid
   end
 
-  require 'public_uid/model_concern'
   class ModelWithPublicUidConcern  < ActiveRecord::Base
     include PublicUid::ModelConcern
     self.table_name =  'user_puids'

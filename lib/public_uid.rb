@@ -8,4 +8,8 @@ require "public_uid/generators/number_secure_random"
 require "public_uid/generators/hex_string_secure_random"
 require 'public_uid/tasks' if defined?(Rails)
 
+module PublicUid
+  RecordNotFound = Class.new(StandardError)
+end
+
 ActiveRecord::Base.send(:include, PublicUid::Model)

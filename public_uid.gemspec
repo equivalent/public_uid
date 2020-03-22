@@ -20,8 +20,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activerecord", '> 4.2' # ensures compatibility for ruby 2.0.0+ to head
   spec.add_development_dependency "bundler"
+  spec.add_development_dependency "pry"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "minitest", "~> 5"
   spec.add_development_dependency "rr", "~> 1.1.2"
   spec.add_development_dependency "sqlite3", "~> 1.4.1"
+  spec.add_development_dependency "activesupport", '> 4.2'
 end

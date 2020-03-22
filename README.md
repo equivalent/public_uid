@@ -64,12 +64,34 @@ end
 
 ### Step 2a - Using Rails concern
 
-> a.k.a - the easy way for Rails
+> a.k.a - the easy way for Rails (availible since version 2.1.0)
 
 ```ruby
 class User < ActiveRecord::Base
   include PublicUid::ModelConcern
 end
+```
+
+Example:
+
+
+```ruby
+user = User.create
+user.public_uid
+# => "xxxxxxxx"
+
+user.to_param
+# => "xxxxxxxx"
+
+User.find_param('xxxxxxxx')
+# => <#User ...>
+User.find_param('not_existing')
+# => nil
+
+User.find_param!('xxxxxxxx')
+# => <#User ...>
+User.find_param!('not_existing')
+# PublicUid::RecordNotFound (User 'not_existing' not found)
 ```
 
 This will automatically:

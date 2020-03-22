@@ -48,6 +48,9 @@ And then execute:
 
 ## Usage
 
+
+### Step 1 - db column
+
 Create database column for public unique ID.
 
 ```ruby
@@ -58,6 +61,29 @@ class AddPublicUidToUsers < ActiveRecord::Migration
   end
 end
 ```
+
+### Step 2a - Using Rails concern
+
+> a.k.a - the easy way for Rails
+
+```ruby
+class User < ActiveRecord::Base
+  include PublicUid::ModelConcern
+end
+```
+
+This will automatically:
+
+* assumes your model has `public_uid` column and generate public_uid value for you
+* will automatically tell model to use `public_uid` as `to_param` method   ffectively turning `user.public_uid` the attribute passed in routes when you do routes (instead of `id`). Example `user_path(@user)` => `/users/xxxxxxx` 
+* provides `User.find_puid('xxxxxx')` and `User.find_puid!('xxxxxx')` class methods as more convenient replacement for `find_by!(public_uid: 'xxxxxxx')` to find records in controllers.
+* `User.find_puid!('xxxxxx')` will raise `PublicUid::RecordNotFound`   instead of `ActiveRecord::RecordNotFound` for more accurate error handling in Rails controller (check [Rails rescue_from](https://apidock.com/rails/ActiveSupport/Rescuable/ClassMethods/rescue_from) for inspiration)
+
+> more info check > [source](https://github.com/equivalent/public_uid/blob/master/lib/public_uid/model_concern.rb)
+
+If you need more customization please  follow **Step 2b** instead
+
+### Step 2b - Using manual generate method
 
 Tell your model to generate the public identifier
 

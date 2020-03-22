@@ -36,7 +36,7 @@ TestConf.orm_modules.each do |orm_module|
           it{ expect(model_class.find_puid!(subject)).must_equal(user) }
 
 
-          it{ expect(model_class.find_puid('nonexisting')).must_equal(nil) }
+          it{ expect(model_class.find_puid('nonexisting')).must_be_nil }
           it do
             assert_raises PublicUid::RecordNotFound do
               model_class.find_puid!('nonexisting')

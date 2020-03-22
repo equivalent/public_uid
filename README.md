@@ -83,14 +83,14 @@ user.public_uid
 user.to_param
 # => "xxxxxxxx"
 
-User.find_param('xxxxxxxx')
+User.find_puid('xxxxxxxx')
 # => <#User ...>
-User.find_param('not_existing')
+User.find_puid('not_existing')
 # => nil
 
-User.find_param!('xxxxxxxx')
+User.find_puid!('xxxxxxxx')
 # => <#User ...>
-User.find_param!('not_existing')
+User.find_puid!('not_existing')
 # PublicUid::RecordNotFound (User 'not_existing' not found)
 ```
 
@@ -133,7 +133,7 @@ Then you can do more clever things like having urls based on `public_uid` and `t
 class User < ActiveRecord::Base
   generate_public_uid
 
-  def self.find_param(param)
+  def self.find_puid(param)
     find_by! public_uid: param.split('-').first
   end
   
@@ -146,7 +146,7 @@ end
 class UsersController < ActionController::Base
   # ...
   def show
-    @user = User.find_param(param[:id])
+    @user = User.find_puid(param[:id])
     # ...
   end
   # ...

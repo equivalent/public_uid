@@ -107,6 +107,8 @@ If you need more customization please  follow **Step 2b** instead
 
 ### Step 2b - Using manual generate method
 
+> a.k.a bit harder than `2.a` but more flexible way for Rails
+
 Tell your model to generate the public identifier
 
 ```ruby

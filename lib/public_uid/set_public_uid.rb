@@ -27,7 +27,7 @@ module PublicUid
     private
 
     def similar_uid_exist?
-      @klass.where(@column => new_uid).count > 0
+      @klass.where(@column => new_uid).exists?
     end
 
     def check_column_existance

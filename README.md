@@ -45,6 +45,7 @@ And then execute:
 
     $ bundle
 
+[![Gem Version](https://badge.fury.io/rb/public_uid.svg)](https://badge.fury.io/rb/public_uid)
 
 ## Usage
 

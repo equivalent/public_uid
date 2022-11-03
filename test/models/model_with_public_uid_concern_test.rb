@@ -44,6 +44,26 @@ TestConf.orm_modules.each do |orm_module|
           end
         end
       end
+
+      describe '#dup' do
+        let(:user) { model_class.new(:public_uid => 'abcdefg') }
+
+        it do
+          dup_user = user.dup
+          expect(user.public_uid).must_equal('abcdefg')
+          expect(dup_user.public_uid).must_equal(nil)
+        end
+      end
+
+      describe '#clone' do
+        let(:user) { model_class.new(:public_uid => 'abcdefg') }
+
+        it do
+          clone_user = user.clone
+          expect(user.public_uid).must_equal('abcdefg')
+          expect(clone_user.public_uid).must_equal('abcdefg')
+        end
+      end
     end
   end
 end

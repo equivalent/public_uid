@@ -14,6 +14,15 @@ module PublicUid
         pub_uid.generate self.class.public_uid_generator
         pub_uid.set
       end
+
+      def initialize_dup(*)
+        super
+        _clear_public_uid_column
+      end
+
+      def _clear_public_uid_column
+        self.send("#{self.class.public_uid_column}=", nil)
+      end
     end
 
     module ClassMethods

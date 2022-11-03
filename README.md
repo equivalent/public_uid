@@ -395,3 +395,12 @@ If anyone want to see public_uid v 2.0 to support other data mappers (e.g. mongo
 
 Sorry for any inconvenience
 
+##### 2022-11-03
+
+Version 2.2.0 released
+
+
+`model.dup` will now not copy the public_uid value (same as `model.id`  )
+
+more: https://github.com/equivalent/public_uid/pull/21
+

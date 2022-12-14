@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PublicUid
   module Generators
     class NumberRandom
@@ -5,7 +7,7 @@ module PublicUid
         @scale = scale
       end
 
-      def generate(randomizer = Random.new())
+      def generate(record: nil, randomizer: Random.new)
         randomizer.rand(@scale)
       end
     end

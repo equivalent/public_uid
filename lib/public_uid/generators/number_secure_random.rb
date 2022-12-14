@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'securerandom'
 
 module PublicUid
@@ -7,9 +9,9 @@ module PublicUid
         @scale = scale
       end
 
-      def generate()
-        generated_number = SecureRandom.random_number( (@scale.max - @scale.min) )  #because SecureRandom.random_number can have only one argument = max value.
-        return (generated_number + @scale.min)
+      def generate(...)
+        generated_number = SecureRandom.random_number((@scale.max - @scale.min))  # because SecureRandom.random_number can have only one argument = max value.
+        (generated_number + @scale.min)
       end
     end
   end

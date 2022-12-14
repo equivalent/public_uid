@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class DummyGenerator
@@ -5,27 +7,26 @@ class DummyGenerator
     @counter = 0
   end
 
-  def generate
+  def generate(...)
     if @counter > 1
       'second try'
     else
       'first try'
-    end.tap { @counter = @counter + 1 }
+    end.tap { @counter += 1 }
   end
 end
 
 TestConf.orm_modules.each do |orm_module|
   describe orm_module.description do
     describe 'PublicUid::SetPublicUid' do
-
-      let(:options)  { {record: record, column: :public_uid} }
+      let(:options)  { { record:, column: :public_uid } }
       let(:instance) { PublicUid::SetPublicUid.new options }
       let(:record)   { record_class.new }
       let(:record_class) { "#{orm_module}::ModelWithGeneratorDefaults".constantize }
 
       describe 'initialization' do
         context 'when column not specified' do
-          let(:options) { { record: record } }
+          let(:options) { { record: } }
           it do
             assert_raises PublicUid::SetPublicUid::NoPublicUidColumnSpecified do
               instance
@@ -34,7 +35,7 @@ TestConf.orm_modules.each do |orm_module|
         end
 
         context 'when record not specified' do
-          let(:options) { {column: :foo} }
+          let(:options) { { column: :foo } }
           it do
             assert_raises PublicUid::SetPublicUid::NoRecordSpecified do
               instance
@@ -43,19 +44,19 @@ TestConf.orm_modules.each do |orm_module|
         end
       end
 
-      describe "#generate" do
+      describe '#generate' do
         subject { instance.new_uid }
 
-        it "should ask generator to generate random string" do
+        it 'should ask generator to generate random string' do
           instance.generate(DummyGenerator.new)
           expect(subject).must_equal 'first try'
         end
 
         context 'when record match random' do
-          before{ record_class.create public_uid: 'first try' }
+          before { record_class.create public_uid: 'first try' }
           after { record_class.destroy_all }
 
-          it "should generate string once again" do
+          it 'should generate string once again' do
             instance.generate(DummyGenerator.new)
             expect(subject).must_equal 'second try'
           end
@@ -92,9 +93,9 @@ TestConf.orm_modules.each do |orm_module|
         # in previous version application deal with this issue by converting
         # everything given by generator to string which is wrong. If the output
         # of generator is not supported by DB don't use it.
-        it 'must pass exact type of generator to model' do 
+        it 'must pass exact type of generator to model' do
           count_mock = stub(record_class).count { 10 }
-          stub(record_class).where( { public_uid: 567 } ) { count_mock }
+          stub(record_class).where({ public_uid: 567 }) { count_mock }
 
           expect(trigger).must_equal true
         end

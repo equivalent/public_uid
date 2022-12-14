@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PublicUid
   class SetPublicUid
     NewUidNotSetYet             = Class.new(StandardError)
@@ -15,15 +17,17 @@ module PublicUid
     end
 
     def generate(generator)
-      begin
-        @new_uid= generator.generate
-      end while similar_uid_exist?
+      loop do
+        @new_uid = generator.generate(record: @record)
+        break unless similar_uid_exist?
+      end
     end
 
     def set
       new_uid || raise(NewUidNotSetYet)
-      @record.send("#{@column}=", new_uid )
+      @record.send("#{@column}=", new_uid)
     end
+
     private
 
     def similar_uid_exist?
